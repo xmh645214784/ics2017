@@ -1,5 +1,6 @@
-#ifndef __REG_H__
-#define __REG_H__
+#define __REG_H__O
+#ifndef __REG_H__O
+#define __REG_H__O
 
 #include "common.h"
 
