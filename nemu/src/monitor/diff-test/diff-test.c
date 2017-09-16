@@ -166,11 +166,11 @@ void difftest_step(uint32_t eip) {
     nemu_state = NEMU_END;
     printf("QEMU:\n");
     for (i = 0; i < 8; ++i) {
-      printf("\t$%s 0x%08x\n", regsl[i], r.array[i]);
+      printf("\t%s 0x%08x\n", regsl[i], r.array[i]);
     }
     printf("NEMU:\n");
     for (i = 0; i < 8; ++i) {
-      printf("\t$%s 0x%08x\n", regsl[i], reg_l(i));
+      printf("\t%s 0x%08x\n", regsl[i], reg_l(i));
     }
   }
 }
