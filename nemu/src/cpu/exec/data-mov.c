@@ -6,7 +6,17 @@ make_EHelper(mov) {
 }
 
 make_EHelper(push) {
-  TODO();
+  //TODO();
+  uint8_t subcode = decoding.opcode & 0xf;
+  id_dest->width = decoding.is_operand_size_16 ? 2 : 4;
+  rtl_lr(&t1, id_dest->width, R_ESP);
+  t1 -= id_dest->width;
+  rtl_sr(R_ESP, id_dest->width, &t1);
+
+  id_dest->type = OP_TYPE_MEM;
+  id_dest->addr = t1;
+  rtl_lr(&t2, subcode, id_dest->width);
+  operand_write(id_dest, &t2);
 
   print_asm_template1(push);
 }

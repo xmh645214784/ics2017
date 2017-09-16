@@ -15,7 +15,6 @@ static inline make_DopHelper(I) {
   /* eip here is pointing to the immediate */
   op->type = OP_TYPE_IMM;
   op->imm = instr_fetch(eip, op->width);
-  printf("after eip: %x\n", *eip);
   rtl_li(&op->val, op->imm);
 
 #ifdef DEBUG
