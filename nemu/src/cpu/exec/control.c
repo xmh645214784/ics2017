@@ -25,7 +25,18 @@ make_EHelper(jmp_rm) {
 
 make_EHelper(call) {
   // the target address is calculated at the decode stage
-  TODO();
+  //TODO();
+  id_dest->width = decoding.is_operand_size_16 ? 2 : 4;
+  rtl_lr(&t1, id_dest->width, R_ESP);
+  t1 -= id_dest->width;
+  rtl_sr(R_ESP, id_dest->width, &t1);
+
+  id_dest->type = OP_TYPE_MEM;
+  id_dest->addr = t1;
+  t2 = cpu.eip + id_dest->width + 1;
+  operand_write(id_dest, &t2);
+
+  cpu.eip = (cpu.eip + id_dest->val) & ((id_dest->width == 2) ? 0x0000FFFF : 0xFFFFFFFF);
 
   print_asm("call %x", decoding.jmp_eip);
 }
