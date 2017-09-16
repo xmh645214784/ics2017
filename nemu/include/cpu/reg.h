@@ -117,8 +117,6 @@ typedef union {
         unsigned eflags_init;
       };
 
-      #ifdef IA32_SEG
-
       // using UPPER case to indicate a struct, lower case as a value
       // baad style, but convenient
       union {
@@ -258,7 +256,6 @@ typedef union {
         };
       };
       volatile bool INTR;
-      #endif
     };
 
 } CPU_state;
@@ -273,7 +270,7 @@ static inline int check_reg_index(int index) {
 #define reg_l(index) (cpu.gpr[check_reg_index(index)]._32)
 #define reg_w(index) (cpu.gpr[check_reg_index(index)]._16)
 #define reg_b(index) (cpu.gpr[check_reg_index(index) & 0x3]._8[index >> 2])
-#ifdef IA32_SEG
+
 #define eflags(name) (cpu.eflags.name)
 #define sreg(index) (cpu.sreg[index])
 #define sreg_index(i) (cpu.SREG[i].INDEX)
@@ -281,7 +278,7 @@ static inline int check_reg_index(int index) {
 #define sreg_base(index) (cpu.SREG_INV[index].base)
 #define creg(index) (cpu.CR[index])
 #define idtr_base (cpu.IDTR.base)
-#endif
+
 
 extern const char* regsl[];
 extern const char* regsw[];
