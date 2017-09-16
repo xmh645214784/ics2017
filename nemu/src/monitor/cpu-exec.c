@@ -43,8 +43,8 @@ void cpu_exec(uint64_t n) {
       bool is_success=true;
       if (!make_token(str_tmp,&is_success,1 )) {
           if (is_success==false) {
-          fprintf(stderr, "Bad watchpoint %d: %s\n", p->NO, p->str);
-              continue;
+            fprintf(stderr, "Bad watchpoint %d: %s\n", p->NO, p->str);
+            continue;
           }
       }
       int result=eval_start(&is_success);
