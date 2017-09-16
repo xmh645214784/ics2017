@@ -48,8 +48,11 @@ make_EHelper(call) {
 }
 
 make_EHelper(ret) {
-  TODO();
+  //TODO();
 
+  rtl_pop(&t0);
+  decoding.is_jmp = 1;
+  decoding.jmp_eip = (t0 - 1) & ((id_dest->width == 2) ? 0x0000FFFF : 0xFFFFFFFF);
   print_asm("ret");
 }
 
