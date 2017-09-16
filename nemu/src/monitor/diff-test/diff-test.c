@@ -1,5 +1,6 @@
 #include "nemu.h"
 #include "monitor/monitor.h"
+#include "cpu/reg.h"
 #include <unistd.h>
 #include <sys/prctl.h>
 #include <signal.h>
@@ -149,9 +150,27 @@ void difftest_step(uint32_t eip) {
 
   // TODO: Check the registers state with QEMU.
   // Set `diff` as `true` if they are not the same.
-  TODO();
+  //TODO();
+  int i = 0;
+  for (; i < 8; ++i) {
+    if (r.array[i] != reg_l(i)) {
+      diff = 1;
+      break;
+    }
+  }
+  if (r.eip != cpu.eip) {
+    diff = 1;
+  }
 
   if (diff) {
     nemu_state = NEMU_END;
+    printf("QEMU:\n");
+    for (i = 0; i < 8; ++i) {
+      printf("\t$%s %08x\n", regsl[i], r.array[i]);
+    }
+    printf("NEMU:\n");
+    for (i = 0; i < 8; ++i) {
+      printf("\t$%s %08x\n", regsl[i], reg_l(i));
+    }
   }
 }
