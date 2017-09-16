@@ -17,7 +17,7 @@ make_EHelper(push) {
   decode_r(&op_eip);
   rtl_sm(&t1, id_src->width, &id_dest->val);
   */
-  id_src->width = decoding.is_operand_size_16 ? 2 : 4;
+  //id_src->width = decoding.is_operand_size_16 ? 2 : 4;
   vaddr_t op_eip = *eip - 1;
   decode_r(&op_eip);
   rtl_pushv(&id_dest->val, id_src->width);

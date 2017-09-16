@@ -37,7 +37,7 @@ make_EHelper(call) {
   t2 = cpu.eip + id_dest->width + 1;
   operand_write(id_dest, &t2);
   */
-  id_dest->width = decoding.is_operand_size_16 ? 2 : 4;
+  //id_dest->width = decoding.is_operand_size_16 ? 2 : 4;
   t2 = cpu.eip + id_dest->width + 1;
   rtl_pushv(&t2, id_dest->width);
 
