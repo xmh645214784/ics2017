@@ -26,7 +26,10 @@ make_EHelper(push) {
 }
 
 make_EHelper(pop) {
-  TODO();
+  //TODO();
+  vaddr_t op_eip = *eip - 1;
+  decode_r(&op_eip);
+  rtl_popv(&reg_l(id_dest->reg), id_src->width);
 
   print_asm_template1(pop);
 }
