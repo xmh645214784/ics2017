@@ -13,7 +13,7 @@ make_EHelper(and) {
 }
 
 make_EHelper(xor) {
-  TODO();
+  //TODO();
 
   rtlreg_t result = id_dest->val ^ id_src->val;
   t0 = 0;
