@@ -42,7 +42,7 @@ make_EHelper(call) {
   rtl_pushv(&t2, id_dest->width);
 
   decoding.is_jmp = 1;
-  decoding.jmp_eip = (t2 + id_dest->val) & ((id_dest->width == 2) ? 0x0000FFFF : 0xFFFFFFFF);
+  decoding.jmp_eip = (t2 + id_dest->val);
 
   print_asm("call %x", decoding.jmp_eip);
 }
@@ -52,7 +52,7 @@ make_EHelper(ret) {
 
   rtl_pop(&t0);
   decoding.is_jmp = 1;
-  decoding.jmp_eip = (t0 - 1) & ((id_dest->width == 2) ? 0x0000FFFF : 0xFFFFFFFF);
+  decoding.jmp_eip = t0;
   print_asm("ret");
 }
 
