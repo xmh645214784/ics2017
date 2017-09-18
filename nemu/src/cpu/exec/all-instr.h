@@ -19,3 +19,4 @@ make_EHelper(sbb);
 make_EHelper(and);
 make_EHelper(nop);
 make_EHelper(lea);
+make_EHelper(cmp);
