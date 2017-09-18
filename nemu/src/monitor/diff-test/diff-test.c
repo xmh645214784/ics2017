@@ -168,9 +168,11 @@ void difftest_step(uint32_t eip) {
     for (i = 0; i < 8; ++i) {
       printf("\t%s 0x%08x\n", regsl[i], r.array[i]);
     }
+    printf("\t%s 0x%08x\n", "eip", r.eip);
     printf("NEMU:\n");
     for (i = 0; i < 8; ++i) {
       printf("\t%s 0x%08x\n", regsl[i], reg_l(i));
     }
+    printf("\t%s 0x%08x\n", "eip", cpu.eip);
   }
 }
