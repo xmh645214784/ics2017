@@ -19,7 +19,7 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
     case CC_E:*dest = eflags(ZF) == 1; break;
     case CC_BE:*dest = (eflags(CF) == 1) || (eflags(ZF) == 1); break;
     case CC_S:*dest = eflags(SF) == 1; break;
-    case CC_L:*dest = eflags(ZF) != eflags(OF); break;
+    case CC_L:*dest = eflags(SF) != eflags(OF); break;
     case CC_LE:*dest = (eflags(ZF) == 1) || (eflags(SF) != eflags(OF)); break;
       //TODO();
     default: panic("should not reach here");
