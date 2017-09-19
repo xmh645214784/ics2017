@@ -3,8 +3,9 @@
 make_EHelper(test) {
   //TODO();
   if (decoding.opcode == 0xf7 || decoding.opcode == 0xf6) {
-    --*eip;
-    decode_I2E(eip);
+    id_src->val = id_dest->val;
+    strcpy(id_src->str, id_dest->str);
+    decode_I(eip);
   }
   rtlreg_t result = id_dest->val & id_src->val;
   t0 = 0;
