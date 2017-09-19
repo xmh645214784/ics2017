@@ -2,14 +2,6 @@
 
 make_EHelper(test) {
   //TODO();
-  if (decoding.opcode == 0xf7 || decoding.opcode == 0xf6) {
-    id_src->val = id_dest->val;
-    char tmp_str[OP_STR_SIZE];
-    strcpy(tmp_str, id_dest->str);
-    decode_I(eip);
-    strcpy(id_src->str, id_dest->str);
-    strcpy(id_dest->str, tmp_str);
-  }
   rtlreg_t result = id_dest->val & id_src->val;
   t0 = 0;
   rtl_set_CF(&t0);
