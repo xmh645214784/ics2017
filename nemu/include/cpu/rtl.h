@@ -153,7 +153,7 @@ static inline void rtl_pushv(const rtlreg_t* src1, int width) {
   //TODO();
   rtlreg_t tmp;
   rtl_lr(&tmp, width, R_ESP);
-   printf("esp: %x\n", tmp);
+  printf("esp: %x cpu.esp: %xn", tmp, cpu.esp);
   tmp -= width;
   rtl_sr(R_ESP, width, &tmp);
   rtl_sm(&tmp, width, src1);
