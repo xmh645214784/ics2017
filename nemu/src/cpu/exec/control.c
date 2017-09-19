@@ -50,8 +50,7 @@ make_EHelper(call_rm) {
   rtl_pushv(&t2, id_dest->width);
 
   decoding.is_jmp = 1;
-  decoding.jmp_eip = (cpu.eip + id_dest->val);
-  printf("jmp: %x\neip: %x\nrm: %x", decoding.jmp_eip, cpu.eip, id_dest->val);
+  decoding.jmp_eip = id_dest->val;
 
   print_asm("call *%s", id_dest->str);
 }
