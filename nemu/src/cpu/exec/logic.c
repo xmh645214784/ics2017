@@ -68,14 +68,18 @@ make_EHelper(sar) {
 }
 
 make_EHelper(shl) {
-  TODO();
+  //TODO();
+  id_dest->val <<= id_src->val & 0x1f;
+  operand_write(id_dest, &id_dest->val);
   // unnecessary to update CF and OF in NEMU
 
   print_asm_template2(shl);
 }
 
 make_EHelper(shr) {
-  TODO();
+  //TODO();
+  id_dest->val >>= id_src->val & 0x1f;
+  operand_write(id_dest, &id_dest->val);
   // unnecessary to update CF and OF in NEMU
 
   print_asm_template2(shr);
