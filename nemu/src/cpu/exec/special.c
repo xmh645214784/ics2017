@@ -29,6 +29,7 @@ make_EHelper(inv) {
 
   nemu_state = NEMU_END;
 
+  cpu.eip++;
   print_asm("invalid opcode");
 }
 
