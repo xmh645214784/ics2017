@@ -52,13 +52,19 @@ make_EHelper(cltd) {
   if (decoding.is_operand_size_16) {
     //TODO();
     if (reg_w(R_EAX) < 0) {
-      reg_w(R_EDX) = 0xffff;
+      reg_l(R_EDX) = 0x0000ffff;
+    }
+    else {
+      reg_l(R_EDX) = 0;
     }
   }
   else {
     //TODO();
     if (reg_l(R_EAX) < 0) {
       reg_l(R_EDX) = 0xffffffff;
+    }
+    else {
+      reg_l(R_EDX) = 0;
     }
   }
 
