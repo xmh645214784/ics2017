@@ -40,3 +40,4 @@ make_EHelper(imul3);
 make_EHelper(cltd);
 make_EHelper(idiv);
 make_EHelper(movsx);
+make_EHelper(jmp_rm);
