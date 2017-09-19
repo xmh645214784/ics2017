@@ -152,11 +152,10 @@ static inline void rtl_pushv(const rtlreg_t* src1, int width) {
   // M[esp] <- src1
   //TODO();
   rtlreg_t tmp;
-  rtl_lr(&tmp, width, R_ESP);
-  printf("esp: %x cpu.esp: %x\n", tmp, cpu.esp);
-  tmp -= width;
-  rtl_sr(R_ESP, width, &tmp);
-  rtl_sm(&tmp, width, src1);
+  rtl_lr(&tmp, 4, R_ESP);
+  tmp -= (width == 2 ? 2 : 4);
+  rtl_sr(R_ESP, 4, &tmp);
+  rtl_sm(&tmp, (width == 2 ? 2 : 4), src1);
 }
 
 static inline void rtl_push(const rtlreg_t* src1) {
@@ -170,8 +169,8 @@ static inline void rtl_popv(rtlreg_t* dest, int width) {
   // dest <- M[esp]
   // esp <- esp + 4
   //TODO();
-  rtl_lm(dest, &reg_l(R_ESP), width);
-  reg_l(R_ESP) += width;
+  rtl_lm(dest, &reg_l(R_ESP), (width == 2 ? 2 : 4));
+  reg_l(R_ESP) += (width == 2 ? 2 : 4);
 }
 
 static inline void rtl_pop(rtlreg_t* dest) {
