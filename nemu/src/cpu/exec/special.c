@@ -10,9 +10,11 @@ make_EHelper(inv) {
 
   uint32_t temp[2];
   vaddr_t ori_eip = cpu.eip;
-  //*eip = ori_eip;
-  temp[0] = instr_fetch(eip, 4);
-  temp[1] = instr_fetch(eip, 4);
+  instr_fetch(eip, 4);
+  instr_fetch(eip, 4);
+  *eip = ori_eip;
+  temp[0] = vaddr_read(*eip, 4);
+  temp[1] = vaddr_read(*eip + 4, 4);
 
   uint8_t *p = (void *)temp;
   p[0] = vaddr_read(ori_eip, 1);
