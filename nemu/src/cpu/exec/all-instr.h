@@ -22,3 +22,4 @@ make_EHelper(lea);
 make_EHelper(cmp);
 make_EHelper(setcc);
 make_EHelper(movzx);
+make_EHelper(test);
