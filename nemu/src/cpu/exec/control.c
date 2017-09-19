@@ -12,7 +12,7 @@ make_EHelper(jcc) {
   uint8_t subcode = decoding.opcode & 0xf;
   rtl_setcc(&t2, subcode);
   decoding.is_jmp = t2;
-  decoding.jmp_eip = cpu.eip + id_dest->simm;
+  decoding.jmp_eip = cpu.eip + id_dest->simm + id_dest->width + 1;
 
   print_asm("j%s %x", get_cc_name(subcode), decoding.jmp_eip);
 }
