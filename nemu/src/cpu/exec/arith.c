@@ -59,8 +59,10 @@ make_EHelper(cmp) {
 
 make_EHelper(inc) {
   //TODO();
-  vaddr_t op_eip = *eip - 1;
-  decode_r(&op_eip);
+  if (id_dest->width == 0) {
+    vaddr_t op_eip = *eip - 1;
+    decode_r(&op_eip);
+  }
   t1 = 1;
   rtl_add(&t2, &id_dest->val, &t1);
   operand_write(id_dest, &t2);
@@ -81,8 +83,10 @@ make_EHelper(inc) {
 
 make_EHelper(dec) {
   //TODO();
-  vaddr_t op_eip = *eip - 1;
-  decode_r(&op_eip);
+  if (id_dest->width == 0) {
+    vaddr_t op_eip = *eip - 1;
+    decode_r(&op_eip);
+  }
   t1 = 1;
   rtl_sub(&t2, &id_dest->val, &t1);
   operand_write(id_dest, &t2);
