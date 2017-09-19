@@ -7,17 +7,6 @@ make_EHelper(mov) {
 
 make_EHelper(push) {
   //TODO();
-  /*
-  id_src->width = decoding.is_operand_size_16 ? 2 : 4;
-  rtl_lr(&t1, id_src->width, R_ESP);
-  t1 -= id_src->width;
-  rtl_sr(R_ESP, id_dest->width, &t1);
-
-  vaddr_t op_eip = *eip - 1;
-  decode_r(&op_eip);
-  rtl_sm(&t1, id_src->width, &id_dest->val);
-  */
-  //id_src->width = decoding.is_operand_size_16 ? 2 : 4;
   rtl_pushv(&id_dest->val, id_dest->width);
   
   print_asm_template1(push);
@@ -43,7 +32,18 @@ make_EHelper(popa) {
 }
 
 make_EHelper(leave) {
-  TODO();
+  //TODO();
+  reg_l(R_ESP) = reg_l(R_EBP);
+  rtl_lr(&t0, R_ESP, id_src->width);
+  id_dest->type = OP_TYPE_REG;
+  id_dest->reg = R_EBP;
+  operand_write(id_dest, &t0);
+  if (id_dest->width == 2) {
+    reg_w(R_ESP) += 2;
+  }
+  else {
+    reg_l(R_ESP) += 4;
+  }
 
   print_asm("leave");
 }
