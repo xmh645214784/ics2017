@@ -10,11 +10,12 @@ make_EHelper(inv) {
 
   uint32_t temp[2];
   vaddr_t ori_eip = cpu.eip;
-  *eip = ori_eip;
+  //*eip = ori_eip;
   temp[0] = instr_fetch(eip, 4);
   temp[1] = instr_fetch(eip, 4);
 
   uint8_t *p = (void *)temp;
+  p[0] = vaddr_read(ori_eip, 1);
   printf("invalid opcode(eip = 0x%08x): %02x %02x %02x %02x %02x %02x %02x %02x ...\n\n",
       ori_eip, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7]);
 
@@ -29,7 +30,6 @@ make_EHelper(inv) {
 
   nemu_state = NEMU_END;
 
-  cpu.eip++;
   print_asm("invalid opcode");
 }
 
