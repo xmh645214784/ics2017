@@ -48,7 +48,20 @@ make_EHelper(or) {
 }
 
 make_EHelper(sar) {
-  TODO();
+  //TODO();
+  int32_t dest;
+  if (id_dest->width == 1) {
+    dest = (int32_t)((int8_t)id_dest->val);
+  }
+  else if (id_dest->width == 2) {
+    dest = (int32_t)((int16_t)id_dest->val);
+  }
+  else {
+    dest = (int32_t)((int32_t)id_dest->val);
+  }
+  dest >>= id_src->val & 0x1f;
+  t0 = dest;
+  operand_write(id_dest, &t0);
   // unnecessary to update CF and OF in NEMU
 
   print_asm_template2(sar);
