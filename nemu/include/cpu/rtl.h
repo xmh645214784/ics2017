@@ -141,9 +141,9 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
   //TODO();
   switch (width) {
-    case 1:*dest = (int32_t)((int8_t)*src1); break;
-    case 2:*dest = (int32_t)((int16_t)*src1); break;
-    default:*dest = (int32_t)((int32_t)*src1); break;
+    case 1:{int8_t r = *src1; *dest = (int32_t)r; break;}
+    case 2:{int16_t r = *src1; *dest = (int32_t)r; break;}
+    default:{int32_t r = *src1; *dest = (int32_t)r; break;}
   }
 }
 
