@@ -34,7 +34,7 @@ make_EHelper(popa) {
 make_EHelper(leave) {
   //TODO();
   reg_l(R_ESP) = reg_l(R_EBP);
-  rtl_lr(&t0, R_ESP, id_src->width);
+  rtl_lm(&t0, &reg_l(R_ESP), id_src->width);
   id_dest->type = OP_TYPE_REG;
   id_dest->reg = R_EBP;
   operand_write(id_dest, &t0);
