@@ -129,7 +129,7 @@ void init_qemu_reg() {
 
 void difftest_step(uint32_t eip) {
   union gdb_regs r;
-  bool diff = false;
+  int diff = 0;
 
   if (is_skip_nemu) {
     is_skip_nemu = false;
@@ -154,25 +154,26 @@ void difftest_step(uint32_t eip) {
   int i = 0;
   for (; i < 8; ++i) {
     if (r.array[i] != reg_l(i)) {
-      diff = 1;
+      diff = i;
       break;
     }
   }
   if (r.eip != cpu.eip) {
-    diff = 1;
+    diff = 8;
   }
 
   if (diff) {
     nemu_state = NEMU_END;
     printf("QEMU:\n");
     for (i = 0; i < 8; ++i) {
-      printf("\t%s 0x%08x\n", regsl[i], r.array[i]);
+      printf("\t%s 0x%08x %s\n", regsl[i], r.array[i], diff == i ? "*" : "");
     }
-    printf("\t%s 0x%08x\n", "eip", r.eip);
+    printf("\t%s 0x%08x %s\n", "eip", r.eip, diff == 8 ? "*" : "");
+
     printf("NEMU:\n");
     for (i = 0; i < 8; ++i) {
-      printf("\t%s 0x%08x\n", regsl[i], reg_l(i));
+      printf("\t%s 0x%08x %s\n", regsl[i], reg_l(i), diff == i ? "*" : "");
     }
-    printf("\t%s 0x%08x\n", "eip", cpu.eip);
+    printf("\t%s 0x%08x %s\n", "eip", cpu.eip, diff == 8 ? "*" : "");
   }
 }
