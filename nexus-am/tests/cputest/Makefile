@@ -9,9 +9,9 @@ all: $(addprefix Makefile., $(ALL))
 $(ALL): %: Makefile.%
 
 Makefile.%: tests/%.c latest
-	/bin/echo -e "NAME = $*\nSRCS = $<\nLIBS += klib\ninclude $${AM_HOME}/Makefile.app" > $@
-	make -f $@ ARCH=$(ARCH) $(MAKECMDGOALS)
-	rm -f Makefile.$*
+	@/bin/echo -e "NAME = $*\nSRCS = $<\nLIBS += klib\ninclude $${AM_HOME}/Makefile.app" > $@
+	@make -f $@ ARCH=$(ARCH) $(MAKECMDGOALS)
+	@rm -f Makefile.$*
 
 run: all
 
