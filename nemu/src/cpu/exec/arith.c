@@ -294,6 +294,7 @@ make_EHelper(rol) {
       uint32_t u32_h;
     };
   } tmp;
+  tmp.u64 = 0;
   tmp.u32_l = id_dest->val;
   tmp.u64 <<= reg_b(R_ECX);
   tmp.u32_l += tmp.u32_h;
