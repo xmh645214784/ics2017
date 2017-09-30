@@ -296,7 +296,6 @@ make_EHelper(rol) {
   } tmp;
   tmp.u32_l = id_dest->val;
   tmp.u64 <<= reg_b(R_ECX);
-  tmp.u32_l &= ((uint32_t)-1) << reg_b(R_ECX);
   tmp.u32_l += tmp.u32_h;
   operand_write(id_dest, &tmp.u32_l);
 }
