@@ -29,7 +29,7 @@ void cpu_exec(uint64_t n) {
          * instruction decode, and the actual execution. */
         exec_wrapper(print_flag);
 
-#ifdef DEBUG
+//#ifdef DEBUG
         /* TODO: check watchpoints here. */
     WP *p=head;
     bool is_changed=false;
@@ -61,7 +61,7 @@ void cpu_exec(uint64_t n) {
     if (is_changed==true) {
       nemu_state=NEMU_STOP;
     }
-#endif
+//#endif
 
 #ifdef HAS_IOE
         extern void device_update();
