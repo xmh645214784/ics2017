@@ -17,6 +17,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   uint32_t selector = vaddr_read(address, 4);
   offset = (offset & 0xffff0000) + (selector & 0xffff);
   cpu.eip = offset;
+  printf("offset : 0x%x\n", offset);
   decoding.jmp_eip = ret_addr;
   decoding.is_jmp = 1;
 }
