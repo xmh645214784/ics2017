@@ -4,7 +4,9 @@ void diff_test_skip_qemu();
 void diff_test_skip_nemu();
 
 make_EHelper(lidt) {
-  TODO();
+  //TODO();
+  cpu.IDTR.limit = paddr_read(id_dest->addr, 2);
+  cpu.IDTR.base = paddr_read(id_dest->addr + 2, 4);
 
   print_asm_template1(lidt);
 }
