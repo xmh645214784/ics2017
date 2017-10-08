@@ -82,10 +82,15 @@ make_EHelper(shr) {
   rtl_set_CF(&t0);
   id_dest->val >>= id_src->val & 0x1f;
   operand_write(id_dest, &id_dest->val);
-  if ((int)id_dest->val < 0)
-    t0 = 1;
-  else
+  if ((id_src->val & 0x1f) == 1) {
+    if ((int)id_dest->val < 0)
+      t0 = 1;
+    else
+      t0 = 0;
+  }
+  else {
     t0 = 0;
+  }
   rtl_set_OF(&t0);
   // unnecessary to update CF and OF in NEMU
 
