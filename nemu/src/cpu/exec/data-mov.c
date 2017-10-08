@@ -24,6 +24,7 @@ make_EHelper(pusha) {
   int i = 0;
   for (; i < 8; ++i) {
     rtl_push(&cpu.gpr[i]._32);
+    printf("%d: 0x%x\n", i, cpu.gpr[i]._32);
   }
   print_asm("pusha");
 }
