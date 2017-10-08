@@ -6,7 +6,6 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
    * That is, use ``NO'' to index the IDT.
    */
   //TODO();
-  printf("No: 0x%x\n", NO);
   t0 = cpu.eflags_init;
   t1 = cpu.cs_init;
   t2 = ret_addr;
