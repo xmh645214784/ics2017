@@ -78,9 +78,17 @@ make_EHelper(shl) {
 
 make_EHelper(shr) {
   //TODO();
+  t0 = 0x1 & id_dest->val;
+  rtl_set_CF(&t0);
   id_dest->val >>= id_src->val & 0x1f;
   operand_write(id_dest, &id_dest->val);
+  if ((int)id_dest->val < 0)
+    t0 = 1;
+  else
+    t0 = 0;
+  rtl_set_OF(&t0);
   // unnecessary to update CF and OF in NEMU
+
 
   print_asm_template2(shr);
 }
