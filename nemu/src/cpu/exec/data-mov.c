@@ -20,14 +20,25 @@ make_EHelper(pop) {
 }
 
 make_EHelper(pusha) {
-  TODO();
-
+  //TODO();
+  int i = 0;
+  for (; i < 8; ++i) {
+    rtl_push(&cpu.gpr[i]._32);
+  }
   print_asm("pusha");
 }
 
 make_EHelper(popa) {
-  TODO();
-
+  //TODO();
+  int i = 7;
+  for (; i >= 0; --i) {
+    if (R_ESP == i) {
+      cpu.gpr[R_ESP]._32 += 4;
+    }
+    else {
+      rtl_pop(&cpu.gpr[i]._32);
+    }
+  }
   print_asm("popa");
 }
 
