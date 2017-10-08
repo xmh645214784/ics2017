@@ -5,8 +5,8 @@ void diff_test_skip_nemu();
 
 make_EHelper(lidt) {
   //TODO();
-  cpu.IDTR.limit = paddr_read(id_dest->addr, 2);
-  cpu.IDTR.base = paddr_read(id_dest->addr + 2, 4);
+  cpu.IDTR.limit = vaddr_read(id_dest->addr, 2);
+  cpu.IDTR.base = vaddr_read(id_dest->addr + 2, 4);
 
   print_asm_template1(lidt);
 }
@@ -27,8 +27,12 @@ make_EHelper(mov_cr2r) {
 #endif
 }
 
+void raise_intr(uint8_t NO, vaddr_t ret_addr);
 make_EHelper(int) {
-  TODO();
+  //TODO();
+  decoding.jmp_eip = *eip;
+  decoding.is_jmp = 1;
+  raise_intr(id_dest->val, *eip);
 
   print_asm("int %s", id_dest->str);
 
