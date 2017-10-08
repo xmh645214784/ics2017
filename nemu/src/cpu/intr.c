@@ -18,6 +18,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   offset = (offset & 0xffff0000) + (selector & 0xffff);
   sreg(R_CS) = selector >> 16;
   decoding.jmp_eip = offset;
+  printf("offset :0x%x\n", offset);
   decoding.is_jmp = 1;
 
 }
