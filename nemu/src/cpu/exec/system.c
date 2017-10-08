@@ -30,8 +30,6 @@ make_EHelper(mov_cr2r) {
 void raise_intr(uint8_t NO, vaddr_t ret_addr);
 make_EHelper(int) {
   //TODO();
-  decoding.jmp_eip = *eip;
-  decoding.is_jmp = 1;
   raise_intr(id_dest->val, *eip);
 
   print_asm("int %s", id_dest->str);
