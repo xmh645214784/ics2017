@@ -16,8 +16,10 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   uint32_t offset = vaddr_read(address + 4, 4);
   uint32_t selector = vaddr_read(address, 4);
   offset = (offset & 0xffff0000) + (selector & 0xffff);
+  sreg(R_CS) = selector >> 16;
   decoding.jmp_eip = offset;
   decoding.is_jmp = 1;
+
 }
 
 void dev_raise_intr() {
