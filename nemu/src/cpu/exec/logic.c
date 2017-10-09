@@ -62,6 +62,7 @@ make_EHelper(sar) {
   dest >>= id_src->val & 0x1f;
   t0 = dest;
   operand_write(id_dest, &t0);
+  rtl_update_ZFSF(&id_dest->val, id_dest->width);
   // unnecessary to update CF and OF in NEMU
 
   print_asm_template2(sar);
