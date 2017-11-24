@@ -127,10 +127,12 @@ _DEFUN (_fopen_r, (ptr, file, mode),
   register int f;
   int flags, oflags;
 
-  if ((flags = __sflags (ptr, mode, &oflags)) == 0)
+  if ((flags = __sflags (ptr, mode, &oflags)) == 0) {
     return NULL;
-  if ((fp = __sfp (ptr)) == NULL)
+  }
+  if ((fp = __sfp (ptr)) == NULL) {
     return NULL;
+  }
   if ((f = _open_r (fp->_data, file, oflags, 0666)) < 0)
     {
       fp->_flags = 0;		/* release */

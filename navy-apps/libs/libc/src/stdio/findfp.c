@@ -83,8 +83,9 @@ __sfp (d)
 	if (fp->_flags == 0)
 	  goto found;
       if (g->_next == NULL &&
-	  (g->_next = __sfmoreglue (d, NDYNAMIC)) == NULL)
+	  (g->_next = __sfmoreglue (d, NDYNAMIC)) == NULL) {
 	break;
+    }
     }
   d->_errno = ENOMEM;
   return NULL;

@@ -205,7 +205,7 @@ extern "C" FILE *fopen(const char *path, const char *mode);
 
 FILE *fopen(const char *path, const char *mode) {
   char newpath[1024];
-
+  
   if (!real_fopen) {
     real_fopen = (FILE*(*)(const char*, const char*))dlsym(RTLD_NEXT, "fopen");
   }
