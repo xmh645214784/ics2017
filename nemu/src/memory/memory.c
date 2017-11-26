@@ -1,6 +1,8 @@
 #include "nemu.h"
 #include "device/mmio.h"
 
+paddr_t page_translate(vaddr_t vaddr);
+
 #define PMEM_SIZE (128 * 1024 * 1024)
 
 #define pmem_rw(addr, type) *(type *)({\
@@ -28,9 +30,46 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 }
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
-  return paddr_read(addr, len);
+  if (((addr + len) ^ 0xfff) != (addr ^ 0xfff))
+    assert(0);
+  paddr_t paddr = page_translate(addr);
+  return paddr_read(paddr, len);
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
-  paddr_write(addr, len, data);
+  if (((addr + len) ^ 0xfff) != (addr ^ 0xfff))
+    assert(0);
+  paddr_t paddr = page_translate(addr);
+  paddr_write(paddr, len, data);
+}
+
+paddr_t page_translate(vaddr_t vaddr) {
+  if (cpu.CR0.protect_enable == 0 || cpu.CR0.paging == 0) {
+    return vaddr;
+  }
+
+  union {
+    struct {
+      uint32_t off   :12;
+      uint32_t page  :10;
+      uint32_t dir   :10;
+    };
+    struct {
+      uint32_t       :12;
+      uint32_t tag   :20;
+    };
+    uint32_t val;
+  } addr;
+  addr.val = vaddr;
+
+  uint32_t pdb = cpu.CR3.page_directory_base;
+  uint32_t tmp = addr.dir;
+  uint32_t PDE_page_frame = paddr_read((pdb << 12) + (tmp << 2), 4);
+  assert(PDE_page_frame & 0x1);
+
+  tmp = addr.page;
+  uint32_t PTE_page_frame = paddr_read((PDE_page_frame & 0xfffff000) + (tmp << 2), 4);
+  assert(PTE_page_frame & 0x1);
+
+  return (PTE_page_frame & 0xfffff000) + addr.off;
 }
