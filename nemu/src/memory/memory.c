@@ -54,19 +54,14 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
 }
 
 paddr_t page_translate(vaddr_t vaddr) {
-  if (cpu.CR0.paging == 0) {
+  if (cpu.CR0.paging == 0)
     return vaddr;
-  }
 
   union {
     struct {
       uint32_t off   :12;
       uint32_t page  :10;
       uint32_t dir   :10;
-    };
-    struct {
-      uint32_t       :12;
-      uint32_t tag   :20;
     };
     uint32_t val;
   } addr;

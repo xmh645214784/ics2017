@@ -90,14 +90,18 @@ make_EHelper(movsx) {
   id_dest->width = decoding.is_operand_size_16 ? 2 : 4;
   rtl_sext(&t2, &id_src->val, id_src->width);
   operand_write(id_dest, &t2);
+#ifdef DEBUG
   sprintf(id_dest->str, "%%%s", reg_name(id_dest->reg, id_dest->width));
+#endif
   print_asm_template2(movsx);
 }
 
 make_EHelper(movzx) {
   id_dest->width = decoding.is_operand_size_16 ? 2 : 4;
   operand_write(id_dest, &id_src->val);
+#ifdef DEBUG
   sprintf(id_dest->str, "%%%s", reg_name(id_dest->reg, id_dest->width));
+#endif
   print_asm_template2(movzx);
 }
 
@@ -127,8 +131,10 @@ make_EHelper(movs) {
   cpu.gpr[R_ESI]._32 += (eflags(DF) ? -id_dest->width : id_dest->width);
   cpu.gpr[R_EDI]._32 += (eflags(DF) ? -id_dest->width : id_dest->width);
 
+#ifdef DEBUG
   sprintf(id_src->str, "%s%#x", ((int)t0 < 0 ? "-" : ""), ((int)t0 < 0 ? (int)-t0 : (int)t0));
   sprintf(id_dest->str, "%%es:(%%edi)");
+#endif
 
   print_asm_template2(movs);
 }
