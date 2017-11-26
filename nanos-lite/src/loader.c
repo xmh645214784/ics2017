@@ -1,7 +1,8 @@
 #include "common.h"
 #include "fs.h"
+#include "memory.h"
 
-#define DEFAULT_ENTRY ((void *)0x4000000)
+#define DEFAULT_ENTRY ((void *)0x8048000)
 
 void init_ramdisk();
 size_t get_ramdisk_size();
@@ -13,6 +14,12 @@ uintptr_t loader(_Protect *as, const char *filename) {
   if (fd == -1) {
     panic("file '%s' not found.", filename);
   }
-  fs_read(fd, DEFAULT_ENTRY, fs_filesz(fd));
+  uint32_t pages = ((fs_filesz(fd) - 1) >> 12) + 1;
+  void *vaddr = DEFAULT_ENTRY;
+  for (; pages--; vaddr += PGSIZE) {
+    void *paddr = new_page();
+    _map(as, vaddr, paddr);
+    fs_read(fd, paddr, PGSIZE);
+  }
   return (uintptr_t)DEFAULT_ENTRY;
 }

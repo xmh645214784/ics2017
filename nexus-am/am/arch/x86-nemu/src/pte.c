@@ -1,4 +1,5 @@
 #include <x86.h>
+#include <klib.h>
 
 #define PG_ALIGN __attribute((aligned(PGSIZE)))
 
@@ -6,9 +7,10 @@ static PDE kpdirs[NR_PDE] PG_ALIGN;
 static PTE kptabs[PMEM_SIZE / PGSIZE] PG_ALIGN;
 static void* (*palloc_f)();
 static void (*pfree_f)(void*);
+void* new_page(void);
 
 _Area segments[] = {      // Kernel memory mappings
-  {.start = (void*)0,          .end = (void*)PMEM_SIZE}
+  {.start = (void*)0, .end = (void*)PMEM_SIZE}
 };
 
 #define NR_KSEG_MAP (sizeof(segments) / sizeof(segments[0]))
@@ -66,6 +68,16 @@ void _switch(_Protect *p) {
 }
 
 void _map(_Protect *p, void *va, void *pa) {
+  PDE *pdir = (PDE*)((uint32_t*)(p->ptr))[PDX(va)];
+  if (!((uint32_t)pdir & 0x1)) {
+    pdir = (PDE*)new_page();
+    ((uint32_t*)(p->ptr))[PDX(va)] = (uintptr_t)pdir | PTE_P;
+    
+    for (int i = 0; i < NR_PTE; i ++)
+      pdir[i] = 0;
+  }
+  PTE *ptab = (PTE*)PTE_ADDR(pdir);
+  ptab[PTX(va)] = ((uintptr_t)pa & ~0xfff) | PTE_P;
 }
 
 void _unmap(_Protect *p, void *va) {
@@ -74,3 +86,4 @@ void _unmap(_Protect *p, void *va) {
 _RegSet *_umake(_Protect *p, _Area ustack, _Area kstack, void *entry, char *const argv[], char *const envp[]) {
   return NULL;
 }
+
