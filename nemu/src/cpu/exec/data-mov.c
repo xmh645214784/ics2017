@@ -107,7 +107,12 @@ make_EHelper(lea) {
   print_asm_template2(lea);
 }
 
-make_EHelper(movcr) {
-  cpu.CR[id_src->reg] = id_dest->val;
-  print_asm("movcr");
+make_EHelper(movcr_s) {
+  cpu.CR[id_dest->reg] = id_src->val;
+  print_asm("movcr_s");
+}
+
+make_EHelper(movcr_l) {
+  reg_l(id_dest->reg) = cpu.CR[id_src->reg];
+  print_asm("movcr_l");
 }
