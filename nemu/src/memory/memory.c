@@ -54,7 +54,7 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
 }
 
 paddr_t page_translate(vaddr_t vaddr) {
-  if (cpu.CR0.protect_enable == 0 || cpu.CR0.paging == 0) {
+  if (cpu.CR0.paging == 0) {
     return vaddr;
   }
   printf("enable paging\n");
