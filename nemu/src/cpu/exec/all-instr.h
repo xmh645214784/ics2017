@@ -56,3 +56,4 @@ make_EHelper(iret);
 make_EHelper(cwtl);
 make_EHelper(movcr_s);
 make_EHelper(movcr_l);
+make_EHelper(movs);
