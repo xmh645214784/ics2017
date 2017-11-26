@@ -30,14 +30,14 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 }
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
-  if (((addr + len) & 0xfffff000) != (addr & 0xfffff000))
+  if (((addr & 0xfff) + len) > 0x1000)
     assert(0);
   paddr_t paddr = page_translate(addr);
   return paddr_read(paddr, len);
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
-  if (((addr + len) & 0xfffff000) != (addr & 0xfffff000))
+  if (((addr & 0xfff) + len) > 0x1000)
     assert(0);
   paddr_t paddr = page_translate(addr);
   paddr_write(paddr, len, data);
