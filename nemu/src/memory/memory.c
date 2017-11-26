@@ -68,9 +68,6 @@ paddr_t page_translate(vaddr_t vaddr) {
 
   tmp = PTX(vaddr);
   uint32_t PTE_page_frame = paddr_read((PDE_page_frame & 0xfffff000) + (tmp << 2), 4);
-  if (!(PTE_page_frame & 0x1)) {
-    printf("vaddr: %x, pde: %x, pte: %x\n", vaddr, PDE_page_frame, PTE_page_frame);
-  }
   assert(PTE_page_frame & 0x1);
 
   return (PTE_page_frame & 0xfffff000) + OFF(vaddr);
