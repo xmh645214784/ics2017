@@ -108,11 +108,13 @@ make_EHelper(lea) {
 }
 
 make_EHelper(movcr_s) {
+  printf("get into movcr_s, cr: %x, reg: %x\n", cpu.CR[id_dest->reg], id_src->val);
   cpu.CR[id_dest->reg] = id_src->val;
   print_asm("movcr_s");
 }
 
 make_EHelper(movcr_l) {
+  printf("get into movcr_l, reg: %x, cr: %x\n", reg_l(id_dest->reg), cpu.CR[id_src->reg]);
   reg_l(id_dest->reg) = cpu.CR[id_src->reg];
   print_asm("movcr_l");
 }

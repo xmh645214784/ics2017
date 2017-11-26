@@ -30,8 +30,18 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 }
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
-  if (((addr & 0xfff) + len) > 0x1000)
-    assert(0);
+  if (((addr & 0xfff) + len) > 0x1000) {
+    uint8_t temp[8];
+    uint32_t temp_offset = addr & 3;
+    
+    paddr_t paddr = page_translate(addr);
+    *(uint32_t *)(temp + temp_offset) = paddr_read(paddr, 4 - temp_offset);
+
+    paddr = page_translate((addr & ~0xfff) + 0x1000);
+    *(uint32_t *)(temp + 4) = paddr_read(paddr, len + temp_offset - 4);
+
+    return (*(uint32_t *)(temp + temp_offset)) & (~0u >> ((4 - len) << 3));
+  }
   paddr_t paddr = page_translate(addr);
   return paddr_read(paddr, len);
 }
