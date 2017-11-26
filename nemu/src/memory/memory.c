@@ -53,28 +53,22 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   paddr_write(paddr, len, data);
 }
 
+#define PDX(va)     (((uint32_t)(va) >> 22) & 0x3ff)
+#define PTX(va)     (((uint32_t)(va) >> 12) & 0x3ff)
+#define OFF(va)     ((uint32_t)(va) & 0xfff)
+
 paddr_t page_translate(vaddr_t vaddr) {
   if (cpu.CR0.paging == 0)
     return vaddr;
 
-  union {
-    struct {
-      uint32_t off   :12;
-      uint32_t page  :10;
-      uint32_t dir   :10;
-    };
-    uint32_t val;
-  } addr;
-  addr.val = vaddr;
-
   uint32_t pdb = cpu.CR3.page_directory_base;
-  uint32_t tmp = addr.dir;
+  uint32_t tmp = PDX(vaddr);
   uint32_t PDE_page_frame = paddr_read((pdb << 12) + (tmp << 2), 4);
   assert(PDE_page_frame & 0x1);
 
-  tmp = addr.page;
+  tmp = PTX(vaddr);
   uint32_t PTE_page_frame = paddr_read((PDE_page_frame & 0xfffff000) + (tmp << 2), 4);
   assert(PTE_page_frame & 0x1);
 
-  return (PTE_page_frame & 0xfffff000) + addr.off;
+  return (PTE_page_frame & 0xfffff000) + OFF(vaddr);
 }
