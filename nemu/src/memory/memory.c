@@ -65,7 +65,7 @@ paddr_t page_translate(vaddr_t vaddr) {
   uint32_t tmp = PDX(vaddr);
   uint32_t PDE_page_frame = paddr_read((pdb << 12) + (tmp << 2), 4);
   if (!(PDE_page_frame & 0x1))
-    printf("paging: %x, base: %x, pde: %x\n", vaddr, pdb, PDE_page_frame);
+    printf("paging: %x, base: %x, pde: %x\n", vaddr, (pdb << 12) + (tmp << 2), PDE_page_frame);
   assert(PDE_page_frame & 0x1);
 
   tmp = PTX(vaddr);
