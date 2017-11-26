@@ -58,8 +58,6 @@ paddr_t page_translate(vaddr_t vaddr) {
     return vaddr;
   }
 
-  printf("paging\n");
-
   union {
     struct {
       uint32_t off   :12;
