@@ -57,7 +57,6 @@ paddr_t page_translate(vaddr_t vaddr) {
   if (cpu.CR0.paging == 0) {
     return vaddr;
   }
-  printf("enable paging\n");
 
   union {
     struct {
