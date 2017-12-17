@@ -42,15 +42,13 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 
     return (*(uint32_t *)(temp + temp_offset)) & (~0u >> ((4 - len) << 3));
   }
-  paddr_t paddr = page_translate(addr);
-  return paddr_read(paddr, len);
+  return paddr_read(page_translate(addr), len);
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   if (((addr & 0xfff) + len) > 0x1000)
     assert(0);
-  paddr_t paddr = page_translate(addr);
-  paddr_write(paddr, len, data);
+  paddr_write(page_translate(addr), len, data);
 }
 
 #define PDX(va)     (((uint32_t)(va) >> 22) & 0x3ff)
