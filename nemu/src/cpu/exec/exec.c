@@ -252,4 +252,11 @@ void exec_wrapper(bool print_flag) {
   void difftest_step(uint32_t);
   difftest_step(eip);
 #endif
+  #define TIMER_IRQ 32
+  if  (cpu.INTR & cpu.eflags.IF)  {
+      cpu.INTR = 0;
+      void raise_intr(uint8_t NO, vaddr_t ret_addr);
+      raise_intr(TIMER_IRQ, cpu.eip);
+      update_eip();
+  }
 }
