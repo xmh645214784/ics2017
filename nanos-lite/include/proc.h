@@ -17,6 +17,8 @@ typedef union {
   };
 } PCB;
 
+_RegSet* schedule(_RegSet *prev);
+
 extern PCB *current;
 
 #endif
