@@ -15,7 +15,7 @@ uint8_t pmem[PMEM_SIZE];
 /* Memory accessing interfaces */
 
 static inline int my_is_mmio(paddr_t addr) {
-  return (addr >= 0x40000 || addr < 0xC0000) ? 0 : -1;
+  return (addr >= 0x40000 && addr < 0xC0000) ? 0 : -1;
 }
 
 uint32_t paddr_read(paddr_t addr, int len) {
