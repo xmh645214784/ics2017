@@ -8,11 +8,15 @@ static const char *keyname[256] __attribute__((used)) = {
   _KEYS(NAME)
 };
 
+extern int current_game;
+extern uint32_t* const fb;
 size_t events_read(void *buf, size_t len) {
   short key_event = (short)_read_key();
   if (key_event < 0) {
     key_event ^= 0x8000;
     snprintf(buf, len, "kd %s\n", keyname[key_event]);
+    if (key_event == 3)
+      current_game = !current_game;
   }
   else if (key_event > 0)
     snprintf(buf, len, "ku %s\n", keyname[key_event]);
@@ -29,7 +33,6 @@ void dispinfo_read(void *buf, off_t offset, size_t len) {
 }
 
 void fb_write(const void *buf, off_t offset, size_t len) {
-  extern uint32_t* const fb;
   memcpy((char *)fb + offset, buf, len);
 }
 

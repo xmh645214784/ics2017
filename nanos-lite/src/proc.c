@@ -26,28 +26,24 @@ void load_prog(const char *filename) {
   pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
 }
 
+int current_game = 0;
+
 _RegSet* schedule(_RegSet *prev) {
   // save the context pointer
   static unsigned char switch_count = 0;
-  int do_switch = 1;
-  if (current == &pcb[1]) {
+  if (current == &pcb[2]) {
     current->tf = prev;
-    current = &pcb[0];
+    current = &pcb[current_game];
   }
   else if (switch_count++ == 0) {
     current->tf = prev;
-    current = &pcb[1];
-  }
-  else {
-    do_switch = 0;
-  }
-  // current = &pcb[0];
-  // current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-  if (do_switch) {
-    _switch(&current->as);
-    return current->tf;
+    current = &pcb[2];
   }
   else {
     return NULL;
   }
+  // current = &pcb[0];
+  // current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  _switch(&current->as);
+  return current->tf;
 }
